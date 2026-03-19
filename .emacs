@@ -64,6 +64,8 @@
 (setq dired-listing-switches "-alh")
 (setq dired-mouse-drag-files t)
 
+
 (add-hook 'org-mode-hook 'org-indent-mode)
 
 (global-set-key (kbd "<f11>") 'toggle-frame-fullscreen)
+
