@@ -1,0 +1,4 @@
+#!/bin/bash
+#echo '{"text": "📷", "tooltip": "点击截图"}'
+#echo '{"text": "", "tooltip": "点击截图"}'
+echo '{"text": "", "tooltip": "点击截图"}'  

@@ -1,0 +1,13 @@
+#!/bin/bash
+# 截图保存目录
+SAVE_DIR="$HOME/Pictures/Screenshots"
+mkdir -p "$SAVE_DIR"
+FILENAME="$SAVE_DIR/screenshot-$(date +%Y%m%d-%H%M%S).png"
+
+# 使用 grim 输出到 stdout，通过 tee 同时写入文件和 wl-copy
+grim -g "$(slurp -d)" - | tee "$FILENAME" | wl-copy
+
+# 发送通知（需要 libnotify）
+if command -v notify-send >/dev/null 2>&1; then
+    notify-send "截图已保存" "已复制到剪贴板\n$FILENAME"
+fi
