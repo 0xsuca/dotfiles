@@ -1,0 +1,13 @@
+Description=滚动壁纸服务
+After=graphical-session.target
+PartOf=graphical-session.target
+
+[Service]
+Type=oneshot
+ExecStart=/home/luke/.local/bin/random-wallpaper.sh
+KillMode=process
+Environment=WAYLAND_DISPLAY=wayland-1
+Environment=DISPLAY=:0
+
+[Install]
+WantedBy=graphical-session.target
