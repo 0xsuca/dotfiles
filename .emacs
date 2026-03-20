@@ -148,3 +148,22 @@ compilation-error-regexp-alist-alist
 
 
 (setq ido-auto-merge-work-directories-length -1)
+
+(use-package conda
+  :ensure t
+  :after (projectile)
+  :custom
+  (conda-anaconda-home "/home/luke/miniconda3")
+  :config
+  (conda-env-initialize-interactive-shells)
+  (conda-env-initialize-eshell)
+  (conda-env-autoactivate-mode t))
+
+(electric-pair-mode 1)
+
+(defun rc/open-line-below ()
+  (interactive)
+  (end-of-line)
+  (newline-and-indent))
+
+(global-set-key (kbd "<C-return>") 'rc/open-line-below)
