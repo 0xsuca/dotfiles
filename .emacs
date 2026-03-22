@@ -167,3 +167,17 @@ compilation-error-regexp-alist-alist
   (newline-and-indent))
 
 (global-set-key (kbd "<C-return>") 'rc/open-line-below)
+
+(defun rc/open-line-above ()
+  (interactive)
+  (beginning-of-line)
+  (open-line 1)
+  (indent-according-to-mode))
+
+(global-set-key (kbd "<C-S-return>") 'rc/open-line-above)
+
+
+(rc/require 'leetcode)
+
+(setq leetcode-prefer-language "python3")
+(setq leetcode-save-directory "~/Programming/leetcode/")
