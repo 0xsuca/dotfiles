@@ -1,4 +1,8 @@
-
+gestures {
+    hot-corners {
+        off
+    }
+}
 cursor {
     // 光标主题
    // xcursor-theme "breeze_cursors"
@@ -9,9 +13,8 @@ cursor {
     // 光标闲置多少 ms 后自动隐藏（15000 = 15 秒）
     hide-after-inactive-ms 15000
 }
-
 input {
-    keyboard {
+   keyboard {
         xkb {
             // layout "us"
             // variant "colemak_dh_ortho"

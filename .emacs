@@ -67,7 +67,7 @@
 ;;; Whitespace mode
 (defun rc/set-up-whitespace-handling ()
   (interactive)
-  (whitespace-mode 1)
+  (whitespace-mode 0)
   (add-to-list 'write-file-functions 'delete-trailing-whitespace))
 
 
@@ -124,6 +124,28 @@
             (interactive)
             (company-mode 0)))
 
+(with-eval-after-load 'company
+  (setq company-idle-delay 0.1          ; 稍微给一点延迟 (0.1s)，避免打字太快时闪烁
+        company-minimum-prefix-length 2  ; 打两个字母再提示，防止干扰
+        company-tooltip-limit 10
+        company-require-match nil        ; 允许输入不在列表中的内容
+        company-dabbrev-ignore-case t    ; 补全忽略大小写
+        company-dabbrev-downcase nil)    ; 保持你输入的大小写，不要强制转小写
+
+  ;; 确保在补全菜单开启时，M-n/M-p 正常工作
+  (define-key company-active-map (kbd "M-n") 'company-select-next)
+  (define-key company-active-map (kbd "M-p") 'company-select-previous)
+  ;; 用 TAB 选下一个，回车确认
+  (define-key company-active-map (kbd "<tab>") 'company-select-next)
+  (define-key company-active-map (kbd "S-<tab>") 'company-select-previous)
+  (define-key company-active-map (kbd "<return>") 'company-complete-selection))
+
+(setq-default company-backends
+              '((company-capf             ; 尝试从当前模式的语法中找
+                 company-dabbrev-code     ; 从代码块中找单词
+                 company-keywords         ; 语言关键字 (if, else, def...)
+                 company-files)           ; 补全路径
+                (company-dabbrev)))       ; 最后实在找不到，从所有打开的文本里找
 ;;; Move Text
 (rc/require 'move-text)
 (global-set-key (kbd "M-p") 'move-text-up)
@@ -176,8 +198,43 @@ compilation-error-regexp-alist-alist
 
 (global-set-key (kbd "<C-S-return>") 'rc/open-line-above)
 
+;;lsp
+;; (rc/require 'lsp-mode)
+;; (rc/require 'lsp-pyright)
 
-(rc/require 'leetcode)
+;; (add-hook 'python-mode-hook #'lsp-deferred)
 
-(setq leetcode-prefer-language "python3")
-(setq leetcode-save-directory "~/Programming/leetcode/")
+;; (with-eval-after-load 'company
+;;   (setq company-idle-delay nil
+;;         company-minimum-prefix-length 1
+;;         company-tooltip-limit 10))
+
+;; ;; 配合 Conda 配置
+;; (setq lsp-pyright-python-executable-cmd "/home/luke/miniconda3/bin/python")
+
+;; (add-hook 'c-mode-hook #'lsp-deferred)
+;; (add-hook 'c++-mode-hook #'lsp-deferred)
+
+;; (rc/require 'lsp-ui)
+;; (setq lsp-ui-doc-enable t
+;;       lsp-ui-doc-position 'at-point)
+
+;; (with-eval-after-load 'company
+;;   (define-key company-active-map (kbd "M-p") #'company-select-previous)
+;;   (define-key company-active-map (kbd "M-n") #'company-select-next))
+
+;; (setq lsp-headerline-breadcrumb-enable nil)
+
+;; (defun rc/smart-tab ()
+
+;;   (interactive)
+;;   (if (company-manual-begin)
+;;       (company-complete-common)
+;;     (indent-for-tab-command)))
+
+;; (with-eval-after-load 'python-mode
+;;   (define-key python-mode-map (kbd "<tab>") 'rc/smart-tab))
+
+;; (with-eval-after-load 'cc-mode
+;;   (define-key c-mode-map (kbd "<tab>") 'rc/smart-tab)
+;;   (define-key c++-mode-map (kbd "<tab>") 'rc/smart-tab))
